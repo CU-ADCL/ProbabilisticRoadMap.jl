@@ -164,3 +164,4 @@ rng_seed = 11
 rng = MersenneTwister(rng_seed)
 prm = P.generate_prm(MAX_NUM_NODES,MAX_NUM_EDGES,get_node_values,is_node_valid,is_edge_valid,edge_cost,rng,10)
 visualize(e,prm)
+println('LALA')
