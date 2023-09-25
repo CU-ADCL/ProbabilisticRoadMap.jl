@@ -1,4 +1,4 @@
-module PRM
+module ProbabilisticRoadMap
 
 using Graphs, MetaGraphs
 include("build_prm.jl")

@@ -4,7 +4,7 @@ using Random
 using Plots
 using Graphs
 using MetaGraphs
-import PRM as P
+import ProbabilisticRoadMap as P
 
 struct CircularObstacle
     x::Float64
