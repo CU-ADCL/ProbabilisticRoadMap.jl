@@ -44,7 +44,7 @@ function add_prm_edges!(prm,src_node_num,max_num_edges,is_edge_valid,edge_cost)
         end
     end
     cost_array = sort(cost_array, by = x->x[2])
-    println(src_node_num, " ", cost_array)
+    # println(src_node_num, " ", cost_array)
 
     num_edges_added = 0
     iterator = 1
@@ -52,11 +52,13 @@ function add_prm_edges!(prm,src_node_num,max_num_edges,is_edge_valid,edge_cost)
         des_node_num = cost_array[iterator][1]
         if(has_edge(prm,src_node_num,des_node_num))
             num_edges_added += 1
+        elseif(length(outneighbors(prm,des_node_num)) >= max_num_edges)
+            # continue
         else
             add_edge!(prm,src_node_num,des_node_num)
             num_edges_added += 1
         end
-        println(num_edges_added)
+        # println(num_edges_added)
         iterator += 1
     end
 end
@@ -71,6 +73,7 @@ function generate_prm(num_nodes,max_edges,get_node_values,is_node_valid,is_edge_
         add_prm_node!(prm,get_node_values,is_node_valid,rng,time_limit)
     end
 
+    # return prm
     #Add edges to the PRM
     for i in 1:num_nodes
         add_prm_edges!(prm,i,max_edges,is_edge_valid,edge_cost)
