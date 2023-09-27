@@ -1,7 +1,6 @@
 #A domain environment with square shape and static circular obstacle in it
 
 using Random
-using Plots
 using Graphs
 using MetaGraphs
 import ProbabilisticRoadMap as P
@@ -118,7 +117,11 @@ function circleShape(h,k,r)
     h .+ r*sin.(theta), k .+ r*cos.(theta)
 end
 
-function visualize(env, prm)
+#=
+Function to visualize the generated prm in the given square environment
+Add Plots to be able to sue this function
+=#
+function visualize(env::SquareEnvironment, prm)
 
     plot_size = 100
     p = plot(legend=false,grid=false,axis=([], false))
@@ -153,9 +156,10 @@ function visualize(env, prm)
     display(p)
 end
 
+
 e = SquareEnvironment(100.0,100.0,CircularObstacle[CircularObstacle(30.0,30.0,15.0),CircularObstacle(70.0,60.0,5.0)])
-const MAX_NUM_NODES = 100
-const MAX_NUM_EDGES = 5
+const MAX_NUM_NODES = 5
+const MAX_NUM_EDGES = 2
 get_node_values = SamplePoint(e)
 is_node_valid = IsNodeValid(e)
 is_edge_valid = IsEdgeValid(e)
@@ -163,4 +167,4 @@ edge_cost = EdgeCost(e)
 rng_seed = 11
 rng = MersenneTwister(rng_seed)
 prm = P.generate_prm(MAX_NUM_NODES,MAX_NUM_EDGES,get_node_values,is_node_valid,is_edge_valid,edge_cost,rng,10)
-visualize(e,prm)
+# visualize(e,prm)
