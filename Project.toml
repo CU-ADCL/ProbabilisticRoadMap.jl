@@ -9,9 +9,15 @@ MetaGraphs = "626554b9-1ddb-594c-aa3c-2596fe9399a5"
 
 [compat]
 julia = "1"
+Graphs = "1.8"
+MetaGraphs = "0.7"
 
 [extras]
+Graphs = "86223c79-3864-5bf0-83f7-82e725a168b6"
+MetaGraphs = "626554b9-1ddb-594c-aa3c-2596fe9399a5"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
+
 [targets]
-test = ["Test"]
+test = ["Graphs","MetaGraphs","Random","Test"]
