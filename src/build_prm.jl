@@ -125,13 +125,12 @@ end
 """
     generate_prm(num_nodes,max_edges,get_node_values,is_node_valid,is_edge_valid,edge_cost,rng,time_limit=0.2)
 
-The function adds edges for a given node in the prm (graph).
+The function generates and returns a prm (graph) with given number of nodes and connects them to other nodes in the prm
 
 # Arguments
 
-- `num_nodes` -> graph to which new edges will be added
-- `max_edges` -> the node number in the prm (graph) for which new edges will be added
-- `max_num_edges` -> the maximum number of edges this node can have in the prm (graph)
+- `num_nodes` -> number of nodes to be added in the prm (graph)
+- `max_edges` -> maximum number of edges each node can have in the prm (graph)
 - `get_node_values` -> function that returns the values to be stored at that node. It takes in a random number generator as an input and returns the node values \n
     (For a 2D environment, the node values could be a tuple of x and y positions)
 ```julia-repl
@@ -155,6 +154,10 @@ The function adds edges for a given node in the prm (graph).
 - `rng` -> a random number generator object
 - `time_limit` (optional; default_value=0.2) -> specifies the time limit for adding a new node to the prm (graph)
 
+# Output
+
+- a meta graph with `num_nodes` number of vertices (nodes) where ever vertex is connected to `max_edges` or fewer other vertices\n
+        (meta graph because every node has an attribute called `:values` which has the node values in it)
 
 # Example
 ```julia-repl
@@ -165,7 +168,7 @@ generate_prm(100,5,get_node_values,is_node_valid,is_edge_valid,edge_cost,Mersenn
 function generate_prm(num_nodes,max_edges,get_node_values,is_node_valid,is_edge_valid,edge_cost,rng,time_limit=0.2)
 
     prm = MetaGraph()
-    set_prop!(prm, :description, "A PRM for path planning")
+    # set_prop!(prm, :description, "A PRM for path planning")
 
     #Add nodes to the PRM
     for i in 1:num_nodes
