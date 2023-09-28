@@ -19,12 +19,12 @@ This is a Julia package for generating a Probabilistic RoadMap (PRM) on any give
 Function parameters: 
 
 - `prm` -> graph to which a new node (vertex) will be added
-- `get_node_values` -> function that returns the values to be stored at that node. It takes in a random number generator as an input and returns the node values \n
+- `get_node_values` -> function that returns the values to be stored at that node. It takes in a random number generator as an input and returns the node values
     (For a 2D environment, the node values could be a tuple of x and y positions)
 ```julia-repl
         node_values = get_node_values(rng)
 ```
-- `is_node_valid` -> function that checks if a given node is valid to be added to the PRM. It takes in the prm (graph) and node values as inputs and returns true or false \n
+- `is_node_valid` -> function that checks if a given node is valid to be added to the PRM. It takes in the prm (graph) and node values as inputs and returns true or false
     (This function can be used to check if the node values are in free space or not)
 ```julia-repl
         is_node_valid(prm,node_values)
@@ -48,12 +48,12 @@ Function parameters:
 - `prm` -> graph to which new edges will be added
 - `src_node_num` -> the node number in the prm (graph) for which new edges will be added
 - `max_num_edges` -> the maximum number of edges this node can have in the prm (graph)
-- `is_edge_valid` -> function that checks if a given edge is valid to be added to the graph. It takes in the prm (graph), source node values and destination node values as inputs and returns true or false \n
+- `is_edge_valid` -> function that checks if a given edge is valid to be added to the graph. It takes in the prm (graph), source node values and destination node values as inputs and returns true or false
     (This function can be used to check if the edge connecting the node with source node values and the node with destination node values pass through an obstacle in the environment or not)
 ```julia-repl
         is_edge_valid(prm,src_node_values,des_node_values)
 ```
-- `edge_cost` -> function that computes the cost of an edge between two nodes of the graph. It takes in the prm (graph), source node values and destination node values as inputs and returns the cost of the edge connecting these nodes \n
+- `edge_cost` -> function that computes the cost of an edge between two nodes of the graph. It takes in the prm (graph), source node values and destination node values as inputs and returns the cost of the edge connecting these nodes
     (For a 2D environment where the node values are (x,y) positions, this function can return the euclidean distance between the two nodes
 ```julia-repl
         edge_cost(prm,src_node_values,des_node_values)
@@ -71,22 +71,22 @@ add_prm_edges!(prm, 11, 5, is_edge_valid, edge_cost)
   Function parameters:  
   - `num_nodes` -> number of nodes to be added in the prm (graph)
 - `max_edges` -> maximum number of edges each node can have in the prm (graph)
-- `get_node_values` -> function that returns the values to be stored at that node. It takes in a random number generator as an input and returns the node values \n
+- `get_node_values` -> function that returns the values to be stored at that node. It takes in a random number generator as an input and returns the node values
     (For a 2D environment, the node values could be a tuple of x and y positions)
 ```julia-repl
         node_values = get_node_values(rng)
 ```
-- `is_node_valid` -> function that checks if a given node is valid to be added to the PRM. It takes in the prm (graph) and node values as inputs and returns true or false \n
+- `is_node_valid` -> function that checks if a given node is valid to be added to the PRM. It takes in the prm (graph) and node values as inputs and returns true or false
     (This function can be used to check if the node values are in free space or not)
 ```julia-repl
         is_node_valid(prm,node_values)
 ```
-- `is_edge_valid` -> function that checks if a given edge is valid to be added to the graph. It takes in the prm (graph), source node values and destination node values as inputs and returns true or false \n
+- `is_edge_valid` -> function that checks if a given edge is valid to be added to the graph. It takes in the prm (graph), source node values and destination node values as inputs and returns true or false
     (This function can be used to check if the edge connecting the node with source node values and the node with destination node values pass through an obstacle in the environment or not)
 ```julia-repl
         is_edge_valid(prm,src_node_values,des_node_values)
 ```
-- `edge_cost` -> function that computes the cost of an edge between two nodes of the graph. It takes in the prm (graph), source node values and destination node values as inputs and returns the cost of the edge connecting these nodes \n
+- `edge_cost` -> function that computes the cost of an edge between two nodes of the graph. It takes in the prm (graph), source node values and destination node values as inputs and returns the cost of the edge connecting these nodes
     (For a 2D environment where the node values are (x,y) positions, this function can return the euclidean distance between the two nodes
 ```julia-repl
         edge_cost(prm,src_node_values,des_node_values)
@@ -95,7 +95,7 @@ add_prm_edges!(prm, 11, 5, is_edge_valid, edge_cost)
 - `time_limit` (optional; default_value=0.2) -> specifies the time limit for adding a new node to the prm (graph)
 
   Output:
-  - a meta graph with `num_nodes` number of vertices (nodes) where ever vertex is connected to `max_edges` or fewer other vertices\n
+  - a meta graph with `num_nodes` number of vertices (nodes) where ever vertex is connected to `max_edges` or fewer other vertices
         (meta graph because every node has an attribute called `:values` which has the node values in it)
 
   Example:
