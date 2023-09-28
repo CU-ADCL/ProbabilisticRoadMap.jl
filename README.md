@@ -8,6 +8,9 @@ This is a Julia package for generating a Probabilistic RoadMap on any given envi
 
 * Probabilistic roadmaps for path planning in high-dimensional configuration spaces [(Link)](https://ieeexplore.ieee.org/abstract/document/508439)
 
+#### A randomly sampled PRM with 100 nodes for a square environment with circular obstacles using the ProbabilisticRoadMap.jl package  
+![prm_img](https://github.com/himanshugupta1009/ProbabilisticRoadMap.jl/blob/main/media/prm_100_nodes_7_edges.png)
+
 ## This package provides users with the following functions:
 
 ### 1) add_prm_node!
