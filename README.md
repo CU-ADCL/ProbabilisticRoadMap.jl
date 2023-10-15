@@ -31,7 +31,7 @@ This is a Julia package for generating a Probabilistic RoadMap (PRM) on any give
 - `edge_cost::Function` -> function that computes the cost of an edge between two nodes of the graph. It takes in the prm (graph), source node values and destination node values as inputs and returns the cost of the edge connecting these nodes
     (For a 2D environment where the node values are (x,y) positions, this function can return the euclidean distance between the two nodes.
   It will be called like this:`edge_cost(prm,src_node_values,des_node_values)`
-- `rng` -> a random number generator object
+- `rng` -> a random number generator object. It will be used as an input to the `get_node_values` function to generate values for a new node in the PRM.
 - `time_limit::Real=0.2` -> specifies the time limit for adding a new node to the prm (graph)
 
 #### Output
@@ -52,7 +52,7 @@ This is a Julia package for generating a Probabilistic RoadMap (PRM) on any give
     (For a 2D environment, the node values could be a tuple of x and y positions). It will be called like this: `node_values = get_node_values(rng)`
 - `is_node_valid::Function` -> function that checks if a given node is valid to be added to the PRM. It takes in the prm (graph) and node values as inputs and returns true or false
     (This function can be used to check if the node values are in free space or not). It will be called like this: `is_node_valid(prm,node_values)`
-- `rng` -> a random number generator object
+- `rng` -> a random number generator object. It will be used as an input to the `get_node_values` function to generate values for a new node in the PRM.
 - `time_limit::Real=0.2` -> specifies the time limit for adding a new node to the prm (graph)
 
 
