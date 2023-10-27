@@ -1,3 +1,7 @@
 [deps]
+Graphs = "86223c79-3864-5bf0-83f7-82e725a168b6"
+LazySets = "b4f0291d-fe17-52bc-9479-3d1a343d9043"
+MetaGraphs = "626554b9-1ddb-594c-aa3c-2596fe9399a5"
 ProbabilisticRoadMap = "773847ca-07cc-414d-a27c-4458bbc76b2b"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"

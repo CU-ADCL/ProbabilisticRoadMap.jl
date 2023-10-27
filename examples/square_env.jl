@@ -1,9 +1,10 @@
-#A domain environment with square shape and static circular obstacle in it
+#A complex domain environment with square shape and two static circular obstacles in it
 
 using Random
 using Graphs
 using MetaGraphs
 import ProbabilisticRoadMap as P
+include("utils.jl")
 
 struct CircularObstacle
     x::Float64
@@ -53,42 +54,6 @@ struct IsEdgeValid
     env::SquareEnvironment
 end
 
-#Given a circle's center and radius and a line segment, find if they intersect
-function circle_line_intersect(cx,cy,cr,ex,ey,lx,ly)
-    dx = lx-ex
-    dy = ly-ey
-    fx = ex-cx
-    fy = ey-cy
-
-    #Quadratic equation is  t^2 ( d · d ) + 2t ( d · f ) +  (f · f - r^2) = 0
-    #Refer to this link if needed - https://stackoverflow.com/questions/1073336/circle-line-segment-collision-detection-algorithm
-    #Standard form is a.t^2 + b.t + c = 0
-
-    a = (dx^2 + dy^2)
-    b = 2*(dx*fx + dy*fy)
-    c = (fx^2 + fy^2) - (cr^2)
-    discriminant = (b^2 - 4*a*c)
-
-    if(discriminant<0)
-        return false
-    elseif (discriminant == 0)
-        t = -b/(2*a)
-        if(t>=0 && t<=1)
-            return true
-        end
-    else
-        discriminant = sqrt(discriminant)
-        t = (-b-discriminant)/(2*a)
-        if(t>=0 && t<=1)
-            return true
-        end
-        t = (-b+discriminant)/(2*a)
-        if(t>=0 && t<=1)
-            return true
-        end
-    end
-    return false
-end
 
 function (obj::IsEdgeValid)(prm,src_node_values,des_node_values)
 
@@ -111,15 +76,9 @@ function (obj::EdgeCost)(prm,src_node_values,des_node_values)
     return dist
 end
 
-#Function to display a circle
-function circleShape(h,k,r)
-    theta = LinRange(0,2*pi,100)
-    h .+ r*sin.(theta), k .+ r*cos.(theta)
-end
-
 #=
 Function to visualize the generated prm in the given square environment
-Add Plots to be able to sue this function
+Add Plots.jl to be able to use this function
 =#
 function visualize(env::SquareEnvironment, prm)
 
@@ -167,4 +126,9 @@ edge_cost = EdgeCost(e)
 rng_seed = 11
 rng = MersenneTwister(rng_seed)
 prm = P.generate_prm(MAX_NUM_NODES,MAX_NUM_EDGES,get_node_values,is_node_valid,is_edge_valid,edge_cost,rng,10)
-# visualize(e,prm)
+
+#=
+To visualize the PRM and the environment, use the visualize function above.
+using Plots
+visualize(e,prm)
+=#
