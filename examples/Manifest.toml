@@ -2,7 +2,7 @@
 
 julia_version = "1.9.3"
 manifest_format = "2.0"
-project_hash = "f0e7ca5836493422cfdc33f37c721ef4441100a9"
+project_hash = "b5fa3a39f7ebcd613120eecce2113581e97076e6"
 
 [[deps.ArgTools]]
 uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
@@ -375,6 +375,14 @@ version = "1.4.1"
 [[deps.Printf]]
 deps = ["Unicode"]
 uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
+
+[[deps.ProbabilisticRoadMap]]
+deps = ["Graphs", "MetaGraphs"]
+git-tree-sha1 = "821ce416ae598626d015ea009f81ec75a48133b8"
+repo-rev = "main"
+repo-url = ".."
+uuid = "773847ca-07cc-414d-a27c-4458bbc76b2b"
+version = "1.0.0"
 
 [[deps.Profile]]
 deps = ["Printf"]
