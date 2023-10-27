@@ -1,20 +1,20 @@
 """
-    add_prm_node!(prm, get_node_values, is_node_valid, rng, time_limit = 0.2)
+    add_prm_node!(prm, get_node_state, is_node_valid, rng, time_limit = 0.2)
 
 The function tries to add a new node to the given PRM within the specified time_limit.
 
 # Arguments
 
 - `prm` -> graph to which a new node (vertex) will be added
-- `get_node_values` -> function that returns the values to be stored at that node. It takes in a random number generator as an input and returns the node values \n
-    (For a 2D environment, the node values could be a tuple of x and y positions)
+- `get_node_state` -> function that returns the values to be stored at that node. It takes in a random number generator as an input and returns the node state \n
+    (For a 2D environment, the node state could be a tuple of x and y positions)
 ```julia-repl
-        node_values = get_node_values(rng)
+        node_state = get_node_values(rng)
 ```
-- `is_node_valid` -> function that checks if a given node is valid to be added to the PRM. It takes in the prm (graph) and node values as inputs and returns true or false \n
-    (This function can be used to check if the node values are in free space or not)
+- `is_node_valid` -> function that checks if a given node is valid to be added to the PRM. It takes in the prm (graph) and node state as inputs and returns true or false \n
+    (This function can be used to check if the node state is in free space or not)
 ```julia-repl
-        is_node_valid(prm,node_values)
+        is_node_valid(prm,node_state)
 ```
 - `rng` -> a random number generator object
 - `time_limit` (optional; default_value=0.2) -> specifies the time limit for adding a new node to the prm (graph)
@@ -25,23 +25,23 @@ The function tries to add a new node to the given PRM within the specified time_
 
 # Example
 ```julia-repl
-add_prm_node!(prm, get_node_values, is_node_valid, MersenneTwister(11),1.0)
+add_prm_node!(prm, get_node_state, is_node_valid, MersenneTwister(11),1.0)
 ```
 
 """
-function add_prm_node!(prm, get_node_values, is_node_valid, rng, time_limit = 0.2)
+function add_prm_node!(prm, get_node_state, is_node_valid, rng, time_limit = 0.2)
 
-    node_values = get_node_values(rng)
+    node_state = get_node_state(rng)
     node_found = false
     start_time = time()
 
     while(!node_found && (time()-start_time < time_limit))
-        if(is_node_valid(prm,node_values))
+        if(is_node_valid(prm,node_state))
             add_vertex!(prm)
-            set_prop!(prm, nv(prm), :values, node_values)
+            set_prop!(prm, nv(prm), :state, node_state)
             node_found = true
         else
-            node_values = get_node_values(rng)
+            node_state = get_node_state(rng)
         end
     end
     if(!node_found)
@@ -95,10 +95,10 @@ function add_prm_edges!(prm,src_node_num,max_num_edges,is_edge_valid,edge_cost)
         if(i == src_node_num)
             continue
         else
-            src_node_values = get_prop(prm,src_node_num,:values)
-            i_node_values = get_prop(prm,i,:values)
-            if(is_edge_valid(prm,src_node_values,i_node_values))
-                cost = edge_cost(prm,src_node_values,i_node_values)
+            src_node_state = get_prop(prm,src_node_num,:state)
+            i_node_state = get_prop(prm,i,:state)
+            if(is_edge_valid(prm,src_node_state,i_node_state))
+                cost = edge_cost(prm,src_node_state,i_node_state)
                 push!(cost_array, (i,cost))
             end
         end
@@ -165,14 +165,14 @@ generate_prm(100,5,get_node_values,is_node_valid,is_edge_valid,edge_cost,Mersenn
 ```
 
 """
-function generate_prm(num_nodes,max_edges,get_node_values,is_node_valid,is_edge_valid,edge_cost,rng,time_limit=0.2)
+function generate_prm(num_nodes,max_edges,get_node_state,is_node_valid,is_edge_valid,edge_cost,rng,time_limit=0.2)
 
     prm = MetaGraph()
     # set_prop!(prm, :description, "A PRM for path planning")
 
     #Add nodes to the PRM
     for i in 1:num_nodes
-        add_prm_node!(prm,get_node_values,is_node_valid,rng,time_limit)
+        add_prm_node!(prm,get_node_state,is_node_valid,rng,time_limit)
     end
 
     #Add edges to the PRM

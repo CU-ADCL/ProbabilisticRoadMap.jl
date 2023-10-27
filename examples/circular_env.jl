@@ -14,15 +14,15 @@ const MAX_NUM_EDGES = 2
 e = Ball2(SA[10.0,0.0],5.0)
 obs = Ball2(SA[12.0,0.0],2.0)
 
-function CE_GetNodeValues(rng)
+function GetNodeState(rng)
     x = e.center[1] + (rand(rng)-0.5)*e.radius
     y = e.center[2] + (rand(rng)-0.5)*e.radius
     return SA[x,y]
 end
 
-CE_IsNodeValid(prm,node_value) = !(node_value in obs) && (node_value in e)
-CE_IsEdgeValid(prm,s,d) = !circle_line_intersect(obs.center[1],obs.center[2],obs.radius,s[1],s[2],d[1],d[2])
-CE_EdgeCost(prm,s,d) = sqrt((s[1]-d[1])^2+(s[2]-d[2])^2)
+IsNodeValid(prm,node_state) = !(node_state in obs) && (node_state in e)
+IsEdgeValid(prm,s,d) = !circle_line_intersect(obs.center[1],obs.center[2],obs.radius,s[1],s[2],d[1],d[2])
+EdgeCost(prm,s,d) = sqrt((s[1]-d[1])^2+(s[2]-d[2])^2)
 
 #=
 Function to visualize the generated prm in the given circular environment
@@ -43,16 +43,16 @@ function visualize(env::Ball2, prm::MetaGraph)
 
     #Plot PRM nodes
     for i in 1:nv(prm)
-        node_values = get_prop(prm,i,:values)
-        scatter!([node_values[1]], [node_values[2]],color="Grey",shape=:circle, msize=0.3*plot_size/env.radius)
+        node_state = get_prop(prm,i,:state)
+        scatter!([node_state[1]], [node_state[2]],color="Grey",shape=:circle, msize=0.3*plot_size/env.radius)
     end
 
     #Plot PRM edges
     prm_edges = collect(edges(prm))
     for e in prm_edges
-        src_node_values = get_prop(prm,e.src,:values)
-        des_node_values = get_prop(prm,e.dst,:values)
-        plot!( [src_node_values[1],des_node_values[1]], [src_node_values[2],des_node_values[2]], color="LightGrey")
+        src_node_state = get_prop(prm,e.src,:state)
+        des_node_state = get_prop(prm,e.dst,:state)
+        plot!( [src_node_state[1],des_node_state[1]], [src_node_state[2],des_node_state[2]], color="LightGrey")
     end
 
     display(p)
@@ -60,8 +60,7 @@ end
 
 
 rng = MersenneTwister(29)
-prm = P.generate_prm(MAX_NUM_NODES,MAX_NUM_EDGES,CE_GetNodeValues,CE_IsNodeValid,CE_IsEdgeValid,CE_EdgeCost,rng,10)
-visualize(e,prm)
+prm = P.generate_prm(MAX_NUM_NODES,MAX_NUM_EDGES,GetNodeState,IsNodeValid,IsEdgeValid,EdgeCost,rng,10)
 
 #=
 To visualize the PRM and the environment, use the visualize function above.
