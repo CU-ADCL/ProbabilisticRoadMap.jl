@@ -1,23 +1,23 @@
 """
-    add_prm_node!(prm, get_node_state, is_node_valid, rng, time_limit = 0.2)
+    add_prm_node!(prm,get_node_state,is_node_valid,rng,time_limit)
 
-The function tries to add a new node to the given PRM within the specified time_limit.
+The function tries to add a new node to the given prm (graph) within the specified time limit.
 
 # Arguments
 
-- `prm` -> graph to which a new node (vertex) will be added
-- `get_node_state` -> function that returns the values to be stored at that node. It takes in a random number generator as an input and returns the node state \n
-    (For a 2D environment, the node state could be a tuple of x and y positions)
+- `prm::MetaGraph` -> graph to which a new node (vertex) will be added
+- `get_node_state::Function` -> function that returns the state to be stored at that node. It takes in a random number generator as an input and returns the node state
+    (For a 2D environment, the node state could be a tuple of x and y positions).
 ```julia-repl
-        node_state = get_node_values(rng)
+        node_state = get_node_state(rng)
 ```
-- `is_node_valid` -> function that checks if a given node is valid to be added to the PRM. It takes in the prm (graph) and node state as inputs and returns true or false \n
-    (This function can be used to check if the node state is in free space or not)
+- `is_node_valid::Function` -> function that checks if a given node is valid to be added to the PRM. It takes in the prm (graph) and node state as inputs and returns true or false
+    (This function can be used to check if the node state is in free space or not).
 ```julia-repl
         is_node_valid(prm,node_state)
 ```
-- `rng` -> a random number generator object
-- `time_limit` (optional; default_value=0.2) -> specifies the time limit for adding a new node to the prm (graph)
+- `rng::AbstractRNG` -> a random number generator object. It will be used as an input to the `get_node_state` function to generate the state for a new node in the PRM.
+- `time_limit::Real=0.2` -> specifies the time limit for adding a new node to the prm (graph)
 
 # Output
 
@@ -25,7 +25,7 @@ The function tries to add a new node to the given PRM within the specified time_
 
 # Example
 ```julia-repl
-add_prm_node!(prm, get_node_state, is_node_valid, MersenneTwister(11),1.0)
+add_prm_node!(prm,get_node_state,is_node_valid,MersenneTwister(11),1.0)
 ```
 
 """
@@ -58,18 +58,19 @@ The function adds edges for a given node in the prm (graph).
 
 # Arguments
 
-- `prm` -> graph to which new edges will be added
-- `src_node_num` -> the node number in the prm (graph) for which new edges will be added
-- `max_num_edges` -> the maximum number of edges this node can have in the prm (graph)
-- `is_edge_valid` -> function that checks if a given edge is valid to be added to the graph. It takes in the prm (graph), source node values and destination node values as inputs and returns true or false \n
-    (This function can be used to check if the edge connecting the node with source node values and the node with destination node values pass through an obstacle in the environment or not)
+- `prm::MetaGraph` -> graph to which new edges will be added
+- `src_node_num::Int` -> the node number in the prm (graph) for which new edges will be added
+- `max_num_edges::Int` -> the maximum number of edges this node can have in the prm (graph)
+- `is_edge_valid::Function` -> function that checks if a given edge is valid to be added to the graph. It takes in the prm (graph), source node state and destination node state as inputs and returns true or false
+    (This function can be used to check if the edge connecting the node with source node state and the node with destination node state passes through an obstacle in the environment or not).
 ```julia-repl
-        is_edge_valid(prm,src_node_values,des_node_values)
+    is_edge_valid(prm,src_node_state,des_node_state)
 ```
-- `edge_cost` -> function that computes the cost of an edge between two nodes of the graph. It takes in the prm (graph), source node values and destination node values as inputs and returns the cost of the edge connecting these nodes \n
-    (For a 2D environment where the node values are (x,y) positions, this function can return the euclidean distance between the two nodes
+- `edge_cost::Function` -> function that computes the cost of an edge between two nodes of the graph. It takes in the prm (graph), source node state and destination node state as inputs and returns the cost of the edge connecting these nodes
+    (For a 2D environment where the node state is (x,y) positions, this function can return the euclidean distance between the two nodes).
+  It will be called like this: `edge_cost(prm,src_node_state,des_node_state)`
 ```julia-repl
-        edge_cost(prm,src_node_values,des_node_values)
+    edge_cost(prm,src_node_state,des_node_state)
 ```
 
 # Example
@@ -125,34 +126,35 @@ end
 """
     generate_prm(num_nodes,max_edges,get_node_values,is_node_valid,is_edge_valid,edge_cost,rng,time_limit=0.2)
 
-The function generates and returns a prm (graph) with given number of nodes and connects them to other nodes in the prm
+The function generates and returns a prm (graph) with the given number of nodes and connects them to other nodes in the prm
 
 # Arguments
 
-- `num_nodes` -> number of nodes to be added in the prm (graph)
-- `max_edges` -> maximum number of edges each node can have in the prm (graph)
-- `get_node_values` -> function that returns the values to be stored at that node. It takes in a random number generator as an input and returns the node values \n
-    (For a 2D environment, the node values could be a tuple of x and y positions)
+- `num_nodes::Int` -> number of nodes to be added in the prm (graph)
+- `max_edges::Int` -> maximum number of edges each node can have in the prm (graph)
+- `get_node_state::Function` -> function that returns the state to be stored at that node. It takes in a random number generator as an input and returns the node state
+    (For a 2D environment, the node state could be a tuple of x and y positions).
 ```julia-repl
-        node_values = get_node_values(rng)
+    node_state = get_node_state(rng)
 ```
-- `is_node_valid` -> function that checks if a given node is valid to be added to the PRM. It takes in the prm (graph) and node values as inputs and returns true or false \n
-    (This function can be used to check if the node values are in free space or not)
+- `is_node_valid::Function` -> function that checks if a given node is valid to be added to the PRM. It takes in the prm (graph) and node state as inputs and returns true or false
+    (This function can be used to check if the node state is in free space or not).
 ```julia-repl
-        is_node_valid(prm,node_values)
+    is_node_valid(prm,node_state)
+
 ```
-- `is_edge_valid` -> function that checks if a given edge is valid to be added to the graph. It takes in the prm (graph), source node values and destination node values as inputs and returns true or false \n
-    (This function can be used to check if the edge connecting the node with source node values and the node with destination node values pass through an obstacle in the environment or not)
+- `is_edge_valid::Function` -> function that checks if a given edge is valid to be added to the graph. It takes in the prm (graph), source node state and destination node state as inputs and returns true or false
+    (This function can be used to check if the edge connecting the node with source node state and the node with destination node state passes through an obstacle in the environment or not).
 ```julia-repl
-        is_edge_valid(prm,src_node_values,des_node_values)
+    is_edge_valid(prm,src_node_state,des_node_state)
 ```
-- `edge_cost` -> function that computes the cost of an edge between two nodes of the graph. It takes in the prm (graph), source node values and destination node values as inputs and returns the cost of the edge connecting these nodes \n
-    (For a 2D environment where the node values are (x,y) positions, this function can return the euclidean distance between the two nodes
+- `edge_cost::Function` -> function that computes the cost of an edge between two nodes of the graph. It takes in the prm (graph), source node state and destination node state as inputs and returns the cost of the edge connecting these nodes
+    (For a 2D environment where the node state is (x,y) positions, this function can return the euclidean distance between the two nodes.
 ```julia-repl
-        edge_cost(prm,src_node_values,des_node_values)
+    edge_cost(prm,src_node_state,des_node_state)
 ```
-- `rng` -> a random number generator object
-- `time_limit` (optional; default_value=0.2) -> specifies the time limit for adding a new node to the prm (graph)
+- `rng::AbstractRNG` -> a random number generator object. It will be used as an input to the `get_node_state` function to generate the state for a new node in the PRM.
+- `time_limit::Real=0.2` -> specifies the time limit for adding a new node to the prm (graph)
 
 # Output
 
