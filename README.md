@@ -17,7 +17,7 @@ This is a Julia package for generating a Probabilistic RoadMap (PRM) on any give
 
     generate_prm(100,5,get_node_state,is_node_valid,is_edge_valid,edge_cost,MersenneTwister(11),1.0)  
   
-  The function generates and returns a prm (graph) with given number of nodes and connects them to other nodes in the prm.
+  The function generates and returns a prm (graph) with the given number of nodes and connects them to other nodes in the prm.
 
 #### Arguments 
 - `num_nodes::Int` -> number of nodes to be added in the prm (graph)
