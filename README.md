@@ -84,4 +84,17 @@ This is a Julia package for generating a Probabilistic RoadMap (PRM) on any give
 1) A simple example to generate a prm for a circular environment that has a circular static obstacle can be found in examples/square_env.jl
 2) A complex example to generate a prm for a square environment that has two circular static obstacles can be found in examples/square_env.jl
 
-In case of any queries, feel free to raise a Github Issue or reach out to the author via email at himanshu.gupta@colorado.edu.
+***
+
+## Find the shortest path between nodes in the PRM:
+
+Since the generated prm is of type MetaGraph, all the functions provided by Graphs.jl to find the shortest path in a graph can be used for the prm as well.
+For instance, the shortest path from node number 2 to all other nodes in the prm using Dijkstra's algorithm can be computed like this:
+```
+    using Graphs
+    ds = dijkstra_shortest_paths(prm,2)
+```
+Further information can be found in the [documentation](https://juliagraphs.org/Graphs.jl/stable/) for Graphs.jl package.
+
+
+#### In case of any queries, feel free to raise a Github Issue or reach out to the author via email at himanshu.gupta@colorado.edu.
